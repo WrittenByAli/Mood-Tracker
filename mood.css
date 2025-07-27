@@ -1,0 +1,53 @@
+  body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f8;
+    }
+
+    .navbar {
+      background-color: #3e667c;
+      color: white;
+      padding: 16px 24px;
+      font-size: 24px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      margin-bottom: 30px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #3e667c;
+    }
+
+    canvas {
+      width: 100% !important;
+      max-height: 400px;
+    }
+
+    .btn-download {
+  background-color: #3e667c;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-download:hover {
+  background-color: #2c4760;
+}

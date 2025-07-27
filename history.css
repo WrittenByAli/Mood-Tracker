@@ -1,0 +1,120 @@
+/* history.css */
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #121212;
+  color: #e0e0e0;
+  padding: 30px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header h1 {
+  color: #00fff7;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+/* Container holding all mood cards */
+.history-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px; 
+}
+
+.mood-card {
+  background: #1a1a1a;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+  padding: 25px 30px;
+  flex: 1 1 220px;
+  max-width: 280px;
+  color: #d0f7f7;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.mood-card:hover {
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+  transform: translateY(-8px);
+}
+
+/* Mood type with a neon highlight */
+.mood-type {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #00fff7;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.7);
+  border-bottom: 2px solid #00fff7;
+  padding-bottom: 6px;
+}
+
+/* Mood note styling */
+.mood-note {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #c0f0f0;
+  min-height: 60px;
+  white-space: pre-wrap; /* preserve line breaks */
+}
+
+/* Date with subtle style */
+.mood-date {
+  font-size: 0.85rem;
+  color: #66d9ff;
+  text-align: right;
+  font-style: italic;
+}
+ .back-button{
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 10px 22px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #00fff7;
+      border: 2px solid #00fff7;
+      border-radius: 20px;
+      background-color: transparent;
+      text-decoration: none;
+      box-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
+      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .back-button:hover {
+      background-color: #00fff7;
+      color: #121212;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 1);
+    }
+
+    /* Button styles matching your website */
+ .charts-button {
+      display: inline-block;
+      padding: 10px 18px;
+      margin: 65px 10px 20px 10px;
+     color: #00fff7;
+      border: 2px solid #00fff7;
+      border-radius: 20px;
+      background-color: transparent;
+      text-decoration: none;
+      box-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
+      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .back-button:hover, .charts-button:hover {
+      background-color: #2c485b;
+    }
