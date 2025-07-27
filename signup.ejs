@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up | Mood Tracker</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+
+</head>
+<body class="beautiful-signup">
+
+  <div class="background-blobs">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+  </div>
+
+  <div class="form-container">
+    <form class="form-card" action="/signup" method="POST">
+      <h2 class="form-title">Join Mood Tracker</h2>
+
+      <% if (typeof error !== 'undefined') { %>
+        <div class="error-message"><%= error %></div>
+      <% } %>
+
+      <% if (typeof success !== 'undefined') { %>
+        <div class="success-message"><%= success %></div>
+      <% } %>
+
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="email" name="email" placeholder="Email" required />
+
+      <div class="password-wrapper">
+        <input type="password" id="password" name="password" placeholder="Password" required />
+        <span class="toggle-password" id="togglePassword">👁️</span>
+      </div>
+
+      <button type="submit">Create Account</button>
+    </form>
+
+    <p class="signin-text">
+      Already have an account? <a href="/login">Sign in here</a>.
+    </p>
+
+    <p class="author">Made with 💙 by <strong>Muhammad Ali</strong></p>
+  </div>
+
+<script>
+  const password = document.getElementById('password');
+  const togglePassword = document.getElementById('togglePassword');
+
+  togglePassword.addEventListener('click', () => {
+    if (password.type === 'password') {
+      password.type = 'text';
+      togglePassword.textContent = '🙈';
+    } else {
+      password.type = 'password';
+      togglePassword.textContent = '👁️';
+    }
+  });
+</script>
+</body>
+</html>

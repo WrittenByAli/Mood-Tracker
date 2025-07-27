@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Mood History</title>
+  <link rel="stylesheet" href="/css/history.css">
+    
+</head>
+<body>
+    <a href="/application" class="back-button">← Back</a>
+    <form action="/analytics" method="GET" style="display: inline;"  target="_blank">
+        <button type="submit" class="charts-button">📊 Mood Charts</button>
+    </form>
+
+  <header>
+    <h1>Your Mood History</h1>
+  </header>
+
+  <main>
+    <div class="history-container">
+      <% for (list of moods) { %>
+      <div class="mood-card">
+            <div class="mood-type"><%= list.mood %></div>
+            <div class="mood-note"><%= list.note %></div>
+            <div class="mood-date"><%= list.created_at %></div>
+          </div>
+          <% } %>
+    </div>
+  </main>
+</body>
+</html>

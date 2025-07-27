@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mood Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <link rel="stylesheet" href="/css/mood.css">
+</head>
+<body>
+  <div class="navbar">Mood Analytics Dashboard</div>
+
+ <div class="container">
+  <div class="card">
+    <h2>Mood Frequency</h2>
+    <canvas id="moodBarChart"></canvas>
+  </div>
+  <div class="card">
+    <h2>Mood Distribution</h2>
+    <canvas id="moodPieChart"></canvas>
+  </div>
+  <div class="card">
+    <h2>Mood Trend Over Time</h2>
+    <canvas id="moodLineChart"></canvas>
+  </div>
+  <button id="downloadPDF" class="btn-download">Download Report as PDF</button>
+
+</div>
+
+<script>
+  const moods = <%- JSON.stringify(moods) %>;
+
+  let happy = 0, sad = 0, angry = 0, excited = 0, anxious = 0, neutral = 0;
+  const trendLabels = [];
+  const trendData = [];
+
+  for (let i = 0; i < moods.length; i++) {
+    const mood = moods[i].mood.toLowerCase();
+    if (mood === "happy") happy++;
+    else if (mood === "sad") sad++;
+    else if (mood === "angry") angry++;
+    else if (mood === "excited") excited++;
+    else if (mood === "anxious") anxious++;
+    else if (mood === "neutral") neutral++;
+
+    // For line chart: use date and mood value
+    trendLabels.push(moods[i].date || `Entry ${i+1}`);
+    trendData.push(mood);
+  }
+
+  const labels = ["Happy", "Sad", "Angry", "Excited", "Anxious", "Neutral"];
+  const data = [happy, sad, angry, excited, anxious, neutral];
+
+  // Bar Chart
+  const ctxBar = document.getElementById('moodBarChart').getContext('2d');
+  new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Mood Frequency',
+        data: data,
+        backgroundColor: ['#3e667c', '#ff8c42', '#f94144', '#f9c74f', '#90be6d', '#90a4ae'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          stepSize: 1
+        }
+      }
+    }
+  });
+
+  // Pie Chart
+  const ctxPie = document.getElementById('moodPieChart').getContext('2d');
+  new Chart(ctxPie, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Mood Distribution',
+        data: data,
+        backgroundColor: ['#3e667c', '#ff8c42', '#f94144', '#f9c74f', '#90be6d', '#90a4ae']
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+
+  // Line Chart (mood trend)
+  // Convert mood strings to numbers for line chart
+  const moodMap = { happy: 5, excited: 4, neutral: 3, anxious: 2, sad: 1, angry: 0 };
+  const trendNumeric = trendData.map(m => moodMap[m] ?? 3);
+
+  const ctxLine = document.getElementById('moodLineChart').getContext('2d');
+  new Chart(ctxLine, {
+    type: 'line',
+    data: {
+      labels: trendLabels,
+      datasets: [{
+        label: 'Mood Trend',
+        data: trendNumeric,
+        fill: false,
+        borderColor: '#3e667c',
+        tension: 0.1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          min: 0,
+          max: 5,
+          ticks: {
+            callback: function(value) {
+              return Object.keys(moodMap).find(key => moodMap[key] === value) || value;
+            }
+          }
+        }
+      }
+    }
+  });
+
+ const { jsPDF } = window.jspdf;
+
+  document.getElementById('downloadPDF').addEventListener('click', () => {
+    const container = document.querySelector('.container'); // The part to capture
+
+    html2canvas(container, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'pt',
+        format: 'a4'
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      // Calculate image height to fit width with same ratio
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, imgHeight);
+      pdf.save('Mood-Analytics-Report.pdf');
+    });
+  });
+</script>
+
+</body>
+</html>

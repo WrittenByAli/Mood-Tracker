@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mood Tracker Dashboard</title>
+  <link rel="stylesheet" href="/css/application.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+
+  <div id="quote-box" class="quote-popup">
+    <p id="quote-text"></p>
+    <p id="quote-author"></p>
+  </div>
+
+  <div class="bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <div class="dashboard">
+    <h1>Welcome</h1>
+
+    <form action="/mood" method="POST" class="mood-form">
+      <% if (typeof success !== 'undefined') { %>
+        <div class="success-message"><%= success %></div>
+      <% } %>
+      <label for="mood">How are you feeling today?</label>
+      <select name="mood" id="mood" required>
+        <option value="" disabled selected>Select your mood</option>
+        <option value="happy">😊 Happy</option>
+        <option value="sad">😢 Sad</option>
+        <option value="angry">😠 Angry</option>
+        <option value="excited">🤩 Excited</option>
+        <option value="anxious">😰 Anxious</option>
+        <option value="neutral">😐 Neutral</option>
+      </select>
+
+      <label for="note">Any notes for today?</label>
+      <textarea name="note" id="note" rows="4" placeholder="Write something about your day..."></textarea>
+
+      <button type="submit">Save Mood</button>
+    </form>
+
+    <div class="history-link">
+      <a href="/history">📅 View Mood History</a>
+    </div>
+
+    <div class="logout-link">
+      <form action="/logout" method="POST">
+        <button type="submit" class="logout-button">Logout</button>
+      </form>
+    </div>
+  </div>
+
+<script>
+  window.addEventListener('load', async () => {
+    try {
+      const response = await fetch('/api/quote');
+      const data = await response.json();
+
+      const quoteBox = document.getElementById('quote-box');
+      document.getElementById('quote-text').textContent = `"${data.q}"`;
+      document.getElementById('quote-author').textContent = `— ${data.a}`;
+    } catch (error) {
+      console.error('Error fetching quote:', error);
+    }
+  });
+</script>
+
+</body>
+</html>

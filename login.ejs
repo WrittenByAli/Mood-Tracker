@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body class="beautiful-login">
+  <div class="background-blobs">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+  </div>
+
+  <div class="form-container">
+    <h2 class="form-title">Welcome Back</h2>
+     <% if (typeof error !== 'undefined') { %>
+      <div class="error-message"><%= error %></div>
+    <% } %>
+    <form class="form-card" action="/login" method="POST">
+      <input type="email" name="email" placeholder="Enter your email" required>
+     <div class="password-wrapper">
+  <input type="password" id="password" name="password" placeholder="Enter your password" required>
+  <span class="toggle-password" id="togglePassword">
+    👁️
+  </span>
+</div>
+
+      <button type="submit">Login</button>
+      
+    </form>
+    <div class="signup-link">
+  Don't have an account? <a href="/signup">Sign up</a>
+</div>
+    <div class="author">Created by <strong>Muhammad Ali</strong></div>
+  </div>
+  
+
+  
+</body>
+<script>
+  const password = document.getElementById('password');
+  const togglePassword = document.getElementById('togglePassword');
+
+  togglePassword.addEventListener('click', () => {
+    // Toggle the input type between password and text
+    if (password.type === 'password') {
+      password.type = 'text';
+      togglePassword.textContent = '🙈'; // change icon to closed eye or something else
+    } else {
+      password.type = 'password';
+      togglePassword.textContent = '👁️'; // change back to open eye
+    }
+  });
+</script>
+
+</html>
