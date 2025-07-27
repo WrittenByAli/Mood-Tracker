@@ -1,3 +1,4 @@
+![logo](https://github.com/WrittenByAli/Mood-Tracker/blob/main/application.jpg)
 # 🌈 Mood Tracker Web App
 
 A web application that helps users track their emotional well-being over time. Users can sign up, log in, add daily mood entries, visualize mood trends, and manage their profiles including uploading profile images.
@@ -21,6 +22,9 @@ This Mood Tracker is built with **Node.js**, **Express.js**, **MySQL**, and **EJ
 - 👤 Profile page with image upload
 - 💬 Daily motivational quote
 - 🖼️ Stylish and responsive design with animated backgrounds
+
+![logo](https://github.com/WrittenByAli/Mood-Tracker/blob/main/signup.jpg)
+
 
 ---
 
