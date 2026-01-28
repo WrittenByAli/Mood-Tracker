@@ -1,5 +1,5 @@
 ![logo](https://github.com/WrittenByAli/Mood-Tracker/blob/main/application.jpg)
-# 🌈 Mood Tracker Web App
+# Mood Tracker Web App
 
 A web application that helps users track their emotional well-being over time. Users can sign up, log in, add daily mood entries, visualize mood trends, and manage their profiles including uploading profile images.
 
