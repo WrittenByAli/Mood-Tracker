@@ -84,7 +84,7 @@ router.get('/analytics', requireAuth, async (req, res) => {
     const [distribution] = await pool.query(
       `SELECT mood, COUNT(*) AS count
        FROM mood_entries
-       WHERE user_id = ? AND entry_date >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+       WHERE user_id = ? AND entry_date >= CURRENT_DATE - (? * INTERVAL '1 day')
        GROUP BY mood
        ORDER BY count DESC`,
       [userId, days]
@@ -93,7 +93,7 @@ router.get('/analytics', requireAuth, async (req, res) => {
     const [trends] = await pool.query(
       `SELECT entry_date, mood, mood_score, energy, stress, sleep_hours
        FROM mood_entries
-       WHERE user_id = ? AND entry_date >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+       WHERE user_id = ? AND entry_date >= CURRENT_DATE - (? * INTERVAL '1 day')
        ORDER BY entry_date ASC`,
       [userId, days]
     );
@@ -106,13 +106,13 @@ router.get('/analytics', requireAuth, async (req, res) => {
          AVG(mood_score) AS avg_mood_score,
          COUNT(*) AS total_entries
        FROM mood_entries
-       WHERE user_id = ? AND entry_date >= DATE_SUB(CURDATE(), INTERVAL ? DAY)`,
+       WHERE user_id = ? AND entry_date >= CURRENT_DATE - (? * INTERVAL '1 day')`,
       [userId, days]
     );
 
     const moodDistribution = Object.keys(MOOD_TYPES).map((mood) => {
       const found = distribution.find((d) => d.mood === mood);
-      return { mood, count: found ? found.count : 0 };
+      return { mood, count: found ? Number(found.count) : 0 };
     });
 
     res.json({

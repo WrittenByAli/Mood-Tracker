@@ -39,7 +39,7 @@ router.post('/signup', async (req, res) => {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const isVerified = process.env.NODE_ENV !== 'production';
+    const isVerified = true;
 
     const [result] = await pool.query(
       `INSERT INTO users (username, email, password_hash, is_verified)

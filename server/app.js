@@ -1,12 +1,13 @@
 require('dotenv').config();
+require('dotenv').config({ path: '.env.local', override: true });
 const express = require('express');
 const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
+const pgSession = require('connect-pg-simple')(session);
 const cors = require('cors');
 const fetch = require('node-fetch');
 const path = require('path');
 const fs = require('fs');
-const { pool, initSchema } = require('./db');
+const { pool, initSchema, pgPool } = require('./db');
 
 const authRoutes = require('./routes/auth');
 const moodRoutes = require('./routes/moods');
@@ -38,25 +39,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 function createSessionStore() {
-  if (!process.env.DB_HOST) return undefined;
-
-  return new MySQLStore({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT || 3306),
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    clearExpired: true,
-    checkExpirationInterval: 900000,
-    expiration: 7 * 24 * 60 * 60 * 1000,
-    createDatabaseTable: true,
-  });
+  if (process.env.DATABASE_URL || process.env.POSTGRES_URL) {
+    return new pgSession({
+      pool: pgPool,
+      tableName: 'user_sessions',
+      createTableIfMissing: true,
+    });
+  }
+  return undefined;
 }
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'dev-session-secret-change-in-production',
-    store: isProduction || isVercel ? createSessionStore() : undefined,
+    store: isProduction || isVercel || process.env.DATABASE_URL ? createSessionStore() : undefined,
     resave: false,
     saveUninitialized: false,
     cookie: {

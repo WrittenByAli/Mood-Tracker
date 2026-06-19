@@ -56,7 +56,7 @@ async function unlockAchievement(pool, userId, key) {
       description: def.description,
     };
   } catch (err) {
-    if (err.code === 'ER_DUP_ENTRY') return null;
+    if (err.code === 'ER_DUP_ENTRY' || err.code === '23505') return null;
     throw err;
   }
 }

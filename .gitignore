@@ -6,6 +6,7 @@ client/node_modules/
 .env
 .env.*
 !.env.example
+.env.local
 
 # Logs and OS
 *.log
@@ -59,3 +60,4 @@ credentials.json
 service-account*.json
 secrets.json
 .vercel
+.env*.local
