@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+client/node_modules/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs and OS
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Archives and binaries
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+
+# Images and media (use uploads at runtime, not in repo)
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.bmp
+*.svg
+!client/public/**/*.svg
+
+# User uploads
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Build output
+client/dist/
+.vite/
+
+# Vercel
+.vercel/
+
+# IDE and editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Legacy backup
+index.js.bak
+
+# Security / credentials
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+secrets.json
