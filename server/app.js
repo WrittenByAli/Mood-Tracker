@@ -19,6 +19,8 @@ const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 const isVercel = Boolean(process.env.VERCEL);
 
+app.set('trust proxy', 1);
+
 const uploadsDir = path.join(__dirname, '../public/uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
@@ -58,7 +60,7 @@ app.use(
     cookie: {
       secure: isProduction || isVercel,
       httpOnly: true,
-      sameSite: isProduction || isVercel ? 'none' : 'lax',
+      sameSite: isProduction || isVercel ? 'lax' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     },
   })
@@ -83,11 +85,22 @@ app.get('/api/quote', async (_req, res) => {
   }
 });
 
-app.get('/api/health', (_req, res) => {
-  res.json({
-    status: 'ok',
-    database: initialized ? 'connected' : 'pending',
-  });
+app.get('/api/health', async (_req, res) => {
+  try {
+    if (!initialized) {
+      await initApp();
+    }
+    res.json({
+      status: 'ok',
+      database: initialized ? 'connected' : 'pending',
+    });
+  } catch (err) {
+    res.status(503).json({
+      status: 'error',
+      database: 'unavailable',
+      message: err.message,
+    });
+  }
 });
 
 if (isProduction || isVercel) {

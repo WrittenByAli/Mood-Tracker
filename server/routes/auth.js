@@ -50,7 +50,13 @@ router.post('/signup', async (req, res) => {
     req.session.userId = result.insertId;
 
     const [users] = await pool.query('SELECT * FROM users WHERE id = ?', [result.insertId]);
-    res.status(201).json({ user: sanitizeUser(users[0]) });
+    req.session.save((saveErr) => {
+      if (saveErr) {
+        console.error('Session save error:', saveErr);
+        return res.status(500).json({ error: 'Failed to create session' });
+      }
+      res.status(201).json({ user: sanitizeUser(users[0]) });
+    });
   } catch (err) {
     console.error('Signup error:', err);
     res.status(500).json({ error: 'Failed to create account' });
@@ -91,7 +97,13 @@ router.post('/login', async (req, res) => {
     }
 
     req.session.userId = user.id;
-    res.json({ user: sanitizeUser(user) });
+    req.session.save((saveErr) => {
+      if (saveErr) {
+        console.error('Session save error:', saveErr);
+        return res.status(500).json({ error: 'Failed to create session' });
+      }
+      res.json({ user: sanitizeUser(user) });
+    });
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ error: 'Failed to log in' });
