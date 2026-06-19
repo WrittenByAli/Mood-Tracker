@@ -58,3 +58,4 @@ index.js.bak
 credentials.json
 service-account*.json
 secrets.json
+.vercel

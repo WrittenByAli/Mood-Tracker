@@ -88,7 +88,10 @@ app.get('/api/quote', async (_req, res) => {
 });
 
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok' });
+  res.json({
+    status: 'ok',
+    database: initialized ? 'connected' : 'pending',
+  });
 });
 
 if (isProduction || isVercel) {
